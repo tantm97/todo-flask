@@ -45,8 +45,9 @@ class User(db.Model, ResourceAddUpdateDelete):
         self.password_hash = password_context.hash(password)
         return '', True
 
-    def __init__(self, name):
+    def __init__(self, name, max_todo):
         self.name = name
+        self.max_todo = max_todo
     
 
 class Task(db.Model, ResourceAddUpdateDelete):

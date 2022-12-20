@@ -32,10 +32,12 @@ class UserListResource(Resource):
 
     def post(self):
         user_dict = request.get_json()
+        print(user_dict)
         if not user_dict:
             response = {'user': 'No input data provided'}
             return response, http_status.HttpStatus.bad_request_400.value
         errors = user_schema.validate(user_dict)
+        print(errors)
         if errors:
             return errors, http_status.HttpStatus.bad_request_400.value
         user_name = user_dict['name']
@@ -44,7 +46,7 @@ class UserListResource(Resource):
             response = {'user':'An user with the name {} already exists'.format(user_name)}
             return response, http_status.HttpStatus.bad_request_400
         try:
-            user = User(name=user_name)
+            user = User(name=user_name, max_todo=user_dict['max_todo'])
             error_message, password_ok = \
                 user.check_password_strength_and_hash_if_ok(user_dict['password'])
             if password_ok:
@@ -58,4 +60,3 @@ class UserListResource(Resource):
             db.session.rollback()
             response = {"error", str(e)}
             return response, http_status.HttpStatus.bad_request_400.value
-

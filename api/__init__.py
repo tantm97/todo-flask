@@ -1,10 +1,9 @@
-import os
-
 from flask import Flask
 from flask_migrate import Migrate
 
-from extension import db
-from auth.controller import auth
+from api.extension import db
+from api.auth.controller import auth_blueprint
+
 
 config = {
     "stag": "api.config.StagingConfig",
@@ -27,6 +26,6 @@ def create_app(config_mode='dev'):
         file_handler = FileHandler(app.config['LOG_FILE'])
         app.logger.addHandler(file_handler)
 
-    app.register_blueprint(auth)
+    app.register_blueprint(auth_blueprint, url_prefix='/todolist')
     migrate = Migrate(app, db)
     return app

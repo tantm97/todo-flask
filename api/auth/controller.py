@@ -8,6 +8,6 @@ auth_blueprint = Blueprint('auth', __name__)
 auth = Api(auth_blueprint)
 
 auth.add_resource(views.UserListResource,
-    '/auth/')
+    '/auth/users/')
 auth.add_resource(views.UserResource,
-    '/auth/<int:id>')
+    '/auth/users/<int:id>')

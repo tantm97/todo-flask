@@ -7,15 +7,14 @@ class UserSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
     name = fields.String(required=True,
         validate=validate.Length(3))
-    max_todo = fields.Integer(strict=True, require=True, 
-        validate=[validate.Range(min=1, error="Value must be greater than 0")])
+    max_todo = fields.Integer(required=True, 
+        validate=validate.Range(min=1, error="Value must be greater than 0"))
     url = ma.URLFor('auth.userresource',
         id='<id>',
         _external=True)
     tasks = fields.Nested('TaskSchema',
         many=True,
         exclude=('user',))
-
 
     class Meta:
         unknown = EXCLUDE
