@@ -6,20 +6,18 @@ from flask_migrate import Migrate
 from extension import db
 
 
+config = {
+    "stag": "api.config.StagingConfig",
+    "test": "api.config.TestConfig",
+    "pro": "api.config.ProductionConfig",
+    "dev": "api.config.DevelopmentConfig",
+}
+
+
 def create_app(config_mode='dev'):
     app = Flask(__name__)
-
-    config = ''    
-    if config_mode == 'stag':
-        config = 'api.config.StagingConfig'
-    elif config_mode == 'pro':
-        config = 'api.config.ProductionConfig'
-    elif config_mode == 'test':
-        config = 'api.config.TestConfig'
-    else:
-        config = 'api.config.DevelopmentConfig'
     
-    app.config.from_object(config)
+    app.config.from_object(config[config_mode])
     db.init_app(app)
 
     if not app.debug:
@@ -31,4 +29,3 @@ def create_app(config_mode='dev'):
 
     migrate = Migrate(app, db)
     return app
-    
