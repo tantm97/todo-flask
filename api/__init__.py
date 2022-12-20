@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 
 from extension import db
 
-
 config = {
     "stag": "api.config.StagingConfig",
     "test": "api.config.TestConfig",

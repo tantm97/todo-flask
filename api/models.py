@@ -10,11 +10,9 @@ class ResourceAddUpdateDelete():
         db.session.add(resource)
         return db.session.commit()
 
-    
     def update(self):
         return db.session.commit()
 
-    
     def delete(self, resource):
         db.session.delete(resource)
         return db.session.commit()
@@ -28,10 +26,8 @@ class User(db.Model, ResourceAddUpdateDelete):
     creation_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
     max_todo = db.Column(db.Integer, nullable=False)
 
-
     def verify_password(self, password):
         return password_context.verify(password, self.password_hash)
-
 
     def check_password_strength_and_hash_if_ok(self, password):
         if len(password) < 8:
@@ -49,7 +45,6 @@ class User(db.Model, ResourceAddUpdateDelete):
         self.password_hash = password_context.hash(password)
         return '', True
 
-
     def __init__(self, name):
         self.name = name
     
@@ -60,7 +55,6 @@ class Task(db.Model, ResourceAddUpdateDelete):
     creation_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     user = db.relationship('User', backref=db.backref('tasks', lazy='dynamic' , order_by='Task.message'))
-
 
     def __init__(self, message, user):
         self.message = message
