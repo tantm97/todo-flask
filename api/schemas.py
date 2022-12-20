@@ -29,6 +29,6 @@ class TaskSchema(ma.Schema):
     user = fields.Nested(UserSchema,
         only=['id', 'url', 'name', 'max_todo'],
         require=True)
-    url = ma.URLFor('api.taskresource', 
+    url = ma.URLFor('task.taskresource', 
         id='<id>', 
         _external=True)
