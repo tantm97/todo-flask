@@ -32,12 +32,10 @@ class UserListResource(Resource):
 
     def post(self):
         user_dict = request.get_json()
-        print(user_dict)
         if not user_dict:
             response = {'user': 'No input data provided'}
             return response, http_status.HttpStatus.bad_request_400.value
         errors = user_schema.validate(user_dict)
-        print(errors)
         if errors:
             return errors, http_status.HttpStatus.bad_request_400.value
         user_name = user_dict['name']

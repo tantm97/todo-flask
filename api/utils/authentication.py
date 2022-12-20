@@ -19,3 +19,4 @@ def verify_user_passowrd(name, password):
 
 class AuthenticationRequiredResource(Resource):
     method_decorators = [http_auth.login_required]
+    

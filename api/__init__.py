@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 
 from api.extension import db
 from api.auth.controller import auth_blueprint
+from api.task.controller import task_blueprint
 
 
 config = {
@@ -27,5 +28,6 @@ def create_app(config_mode='dev'):
         app.logger.addHandler(file_handler)
 
     app.register_blueprint(auth_blueprint, url_prefix='/todolist')
+    app.register_blueprint(task_blueprint, url_prefix='/todolist')
     migrate = Migrate(app, db)
     return app

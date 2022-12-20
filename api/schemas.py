@@ -26,8 +26,7 @@ class TaskSchema(ma.Schema):
         validate=validate.Length(5))
     creation_date = fields.DateTime()
     user = fields.Nested(UserSchema,
-        only=['id', 'url', 'name', 'max_todo'],
-        require=True)
+        only=['id', 'url', 'name', 'max_todo'])
     url = ma.URLFor('task.taskresource', 
         id='<id>', 
         _external=True)
