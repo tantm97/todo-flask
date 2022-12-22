@@ -28,8 +28,10 @@ class User(db.Model, ResourceAddUpdateDelete):
     max_todo = db.Column(db.Integer, nullable=False)
     admin = db.Column(db.Boolean(), nullable=False)
 
-    def is_admin(self):
-        return self.admin
+    def get_user_role(self):
+        if self.admin:
+            return 'admin'
+        return 'user'
 
     def verify_password(self, password):
         return password_context.verify(password, self.password_hash)
@@ -79,4 +81,3 @@ class BlacklistToken(db.Model, ResourceAddUpdateDelete):
 
     def __repr__(self):
         return '<id: token: {}'.format(self.token)
-        

@@ -61,5 +61,15 @@ def verify_user_token(auth_token):
     return False
 
 
+@http_auth.get_user_roles
+def get_user_roles(user):
+    role = g.user.get_user_role()
+    return role
+
+
 class AuthenticationRequiredResource(Resource):
-    method_decorators = [http_auth.login_required]
+    method_decorators = [http_auth.login_required(role=['admin', 'user'])]
+
+
+class AuthenticationAdminRequiredResource(Resource):
+    method_decorators = [http_auth.login_required(role='admin')]

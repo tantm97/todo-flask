@@ -133,6 +133,9 @@ class TaskListResource(authentication.AuthenticationRequiredResource):
         return pagination_result
 
     def post(self):
+        # if Task.query.filter_by(user_id=g.user.id).count() >= g.user.max_todo:
+        #     response = {'error': 'You do not have permission to delete this task.'}
+        #     return response, http_status.HttpStatus.bad_request_400.value
         task_dict = request.get_json()
         if not task_dict:
             response = {'message': 'No input data provided'}

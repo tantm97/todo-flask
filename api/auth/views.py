@@ -12,14 +12,14 @@ user_schema = UserSchema()
 login_schema = LoginSchema()
 
 
-class AdminManagementUserResource(authentication.AuthenticationRequiredResource):
+class AdminManagementUserResource(authentication.AuthenticationAdminRequiredResource):
     def get(self, id):
         user = User.query.get_or_404(id)
         result = admin_management_user_schema.dump(user)
         return result
 
 
-class AdminManagementUserListResource(authentication.AuthenticationRequiredResource):
+class AdminManagementUserListResource(authentication.AuthenticationAdminRequiredResource):
     def get(self):
         pagination_helper = pagination.PaginationHelper(
             request=request,
