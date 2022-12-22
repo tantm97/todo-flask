@@ -12,3 +12,7 @@ task.add_resource(views.TaskListResource,
 task.add_resource(views.TaskResource,
     '/tasks/<int:id>')
     
+task.add_resource(views.AdminManagementTaskListResource,
+    '/tasks/admin/')
+task.add_resource(views.AdminManagementTaskResource,
+    '/tasks/admin/<int:id>')

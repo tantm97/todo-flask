@@ -11,7 +11,7 @@ admin_management_user_schema = AdminManagementTaskSchema()
 task_schema = TaskSchema()
 
 
-class TaskResource(authentication.AuthenticationAdminRequiredResource):
+class AdminManagementTaskResource(authentication.AuthenticationAdminRequiredResource):
     def get(self, id):
         task = Task.query.get_or_404(id)
         result = admin_management_user_schema.dump(task)
@@ -46,7 +46,7 @@ class TaskResource(authentication.AuthenticationAdminRequiredResource):
             return response, http_status.HttpStatus.unauthorized_401.value
 
 
-class TaskListResource(authentication.AuthenticationAdminRequiredResource):
+class AdminManagementTaskListResource(authentication.AuthenticationAdminRequiredResource):
     def get(self):
         pagination_helper = pagination.PaginationHelper(
             request=request,
