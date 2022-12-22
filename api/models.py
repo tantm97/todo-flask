@@ -1,4 +1,5 @@
 import re
+import datetime
 
 from passlib.apps import custom_app_context as password_context
 
@@ -25,6 +26,10 @@ class User(db.Model, ResourceAddUpdateDelete):
     password_hash = db.Column(db.String(120), nullable=False)
     creation_date = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
     max_todo = db.Column(db.Integer, nullable=False)
+    admin = db.Column(db.Boolean(), nullable=False)
+
+    def is_admin(self):
+        return self.admin
 
     def verify_password(self, password):
         return password_context.verify(password, self.password_hash)
@@ -45,9 +50,10 @@ class User(db.Model, ResourceAddUpdateDelete):
         self.password_hash = password_context.hash(password)
         return '', True
 
-    def __init__(self, name, max_todo):
+    def __init__(self, name, max_todo, admin):
         self.name = name
         self.max_todo = max_todo
+        self.admin = admin
     
 
 class Task(db.Model, ResourceAddUpdateDelete):
@@ -60,3 +66,17 @@ class Task(db.Model, ResourceAddUpdateDelete):
     def __init__(self, message, user):
         self.message = message
         self.user = user
+
+
+class BlacklistToken(db.Model, ResourceAddUpdateDelete):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.String(500), unique=True, nullable=False)
+    blacklisted_on = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, token):
+        self.token = token
+        self.blacklisted_on = datetime.datetime.now()
+
+    def __repr__(self):
+        return '<id: token: {}'.format(self.token)
+        
