@@ -6,7 +6,7 @@ from api.auth.controller import auth_blueprint
 from api.task.controller import task_blueprint
 
 
-config = {
+configure = {
     "stag": "api.config.StagingConfig",
     "test": "api.config.TestConfig",
     "pro": "api.config.ProductionConfig",
@@ -17,7 +17,7 @@ config = {
 def create_app(config_mode='dev'):
     app = Flask(__name__)
     
-    app.config.from_object(config[config_mode])
+    app.config.from_object(configure[config_mode])
     db.init_app(app)
 
     if not app.debug:

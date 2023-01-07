@@ -32,7 +32,7 @@ class AdminManagementTaskResource(authentication.AuthenticationAdminRequiredReso
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error": str(e)}
-            return response, http_status.HttpStatus.bad_request_400.value    
+            return response, http_status.HttpStatus.internal_server_error_500.value    
 
     def delete(self, id):
         task = Task.query.get_or_404(id)
@@ -43,7 +43,7 @@ class AdminManagementTaskResource(authentication.AuthenticationAdminRequiredReso
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error": str(e)}
-            return response, http_status.HttpStatus.unauthorized_401.value
+            return response, http_status.HttpStatus.internal_server_error_500.value
 
 
 class AdminManagementTaskListResource(authentication.AuthenticationAdminRequiredResource):
@@ -75,7 +75,7 @@ class AdminManagementTaskListResource(authentication.AuthenticationAdminRequired
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error", str(e)}
-            return response, http_status.HttpStatus.bad_request_400.value
+            return response, http_status.HttpStatus.internal_server_error_500.value
 
 
 class TaskResource(authentication.AuthenticationRequiredResource):
@@ -105,7 +105,7 @@ class TaskResource(authentication.AuthenticationRequiredResource):
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error": str(e)}
-            return response, http_status.HttpStatus.bad_request_400.value    
+            return response, http_status.HttpStatus.internal_server_error_500.value    
 
     def delete(self, id):
         task = Task.query.get_or_404(id)
@@ -119,7 +119,7 @@ class TaskResource(authentication.AuthenticationRequiredResource):
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error": str(e)}
-            return response, http_status.HttpStatus.unauthorized_401.value
+            return response, http_status.HttpStatus.internal_server_error_500.value
 
 
 class TaskListResource(authentication.AuthenticationRequiredResource):
@@ -134,9 +134,6 @@ class TaskListResource(authentication.AuthenticationRequiredResource):
         return pagination_result
 
     def post(self):
-        # if Task.query.filter_by(user_id=g.user.id).count() >= g.user.max_todo:
-        #     response = {'error': 'You do not have permission to delete this task.'}
-        #     return response, http_status.HttpStatus.bad_request_400.value
         task_dict = request.get_json()
         if not task_dict:
             response = {'message': 'No input data provided'}
@@ -153,4 +150,4 @@ class TaskListResource(authentication.AuthenticationRequiredResource):
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error", str(e)}
-            return response, http_status.HttpStatus.bad_request_400.value
+            return response, http_status.HttpStatus.internal_server_error_500.value

@@ -57,7 +57,7 @@ class AdminManagementUserListResource(authentication.AuthenticationAdminRequired
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error", str(e)}
-            return response, http_status.HttpStatus.bad_request_400.value
+            return response, http_status.HttpStatus.internal_server_error_500.value
 
 
 class UserResource(authentication.AuthenticationRequiredResource):
@@ -89,7 +89,7 @@ class LoginResource(Resource):
             response = {
                 'status': 'error',
                 'message': 'User does not exist.'}
-            return response, http_status.HttpStatus.not_found_404.value
+            return response, http_status.HttpStatus.bad_request_400.value
         except Exception as e:
             response = {
                 'status': 'error',
@@ -131,7 +131,7 @@ class RegisterResource(Resource):
         except SQLAlchemyError as e:
             db.session.rollback()
             response = {"error", str(e)}
-            return response, http_status.HttpStatus.bad_request_400.value
+            return response, http_status.HttpStatus.internal_server_error_500.value
 
 
 class LogoutResource(authentication.AuthenticationRequiredResource):
@@ -150,4 +150,4 @@ class LogoutResource(authentication.AuthenticationRequiredResource):
                 'status': 'error',
                 'message': str(e)
             }
-            return response, http_status.HttpStatus.bad_request_400.value
+            return response, http_status.HttpStatus.internal_server_error_500.value
