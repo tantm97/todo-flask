@@ -47,4 +47,6 @@ class TestConfig(BaseConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI_TEST")
+    # Necessary for url_for to build the URLs
+    SERVER_NAME="127.0.0.1"
     
